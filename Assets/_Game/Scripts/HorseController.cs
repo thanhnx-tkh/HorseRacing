@@ -32,7 +32,7 @@ public class HorseController : MonoBehaviour
         IsMoving = true;
 
         // random speed
-        speed = Random.Range(minSpeed, maxSpeed);
+        speed = Random.Range(minSpeed-10, maxSpeed-10);
 
         StartCoroutine(CoRandomSpeed());
 
@@ -123,7 +123,7 @@ public class HorseController : MonoBehaviour
         while (speed > 0)
         {
             yield return new WaitForEndOfFrame();
-            speed -= Time.deltaTime * 2f;
+            speed -= 10f*Time.deltaTime;
         }
         if (speed <= 0)
         {

@@ -1325,8 +1325,8 @@ MonoBehaviour:
   sMRHorse: {fileID: 5473439002187614764}
   sMRCowboy: {fileID: 5042439888340186626}
   holderNumber: {fileID: 754847236225722018}
-  minSpeed: 10
-  maxSpeed: 20
+  minSpeed: 20
+  maxSpeed: 25
   distanceRandomSpeed: 100
 --- !u!1 &6890703593641629911
 GameObject:

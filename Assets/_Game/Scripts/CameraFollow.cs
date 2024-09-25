@@ -8,17 +8,30 @@ public class CameraFollow : MonoBehaviour
     public float smoothSpeed = 0.125f;
     public Vector3 locationOffset;
     public Vector3 rotationOffset;
+    public Vector3 rotationFinish;
+    public float posZFinish;
 
+    public bool IsFinish { get; set; }
     void FixedUpdate()
     {
-        Vector3 desiredPosition = target.position + target.rotation * locationOffset;
+        if (!IsFinish)
+        {
+            Vector3 desiredPosition = target.position + target.rotation * locationOffset;
 
-        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-        transform.position = smoothedPosition;
+            Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+            transform.position = smoothedPosition;
 
-        Quaternion desiredrotation = target.rotation * Quaternion.Euler(rotationOffset);
+            Quaternion desiredrotation = target.rotation * Quaternion.Euler(rotationOffset);
 
-        Quaternion smoothedrotation = Quaternion.Lerp(transform.rotation, desiredrotation, smoothSpeed);
-        transform.rotation = smoothedrotation;
+            Quaternion smoothedrotation = Quaternion.Lerp(transform.rotation, desiredrotation, smoothSpeed);
+            transform.rotation = smoothedrotation;
+        }
+        else{
+            // chuyển cảnh camera khi về đính 
+            transform.position = Vector3.MoveTowards(transform.position, 
+                                                        new Vector3(50, 26, posZFinish),0.7f);
+            Quaternion target = Quaternion.Euler(rotationFinish);
+            transform.rotation = Quaternion.Lerp(transform.rotation, target, Time.fixedDeltaTime * 1f);
+        }
     }
 }

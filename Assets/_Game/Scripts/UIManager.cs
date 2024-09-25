@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] HolderHorse holderHorse;
+    [SerializeField] FinishPoint finishPoint;
     [SerializeField] HorseControllerPlayer horsePlayer;
     public Text textNumberPlayer;
     public Text textListHorseResult;
@@ -73,6 +74,7 @@ public class UIManager : MonoBehaviour
 
     public void BtnRetryGame(){
         holderHorse.SpawnRetry();
+        finishPoint.horses.Clear();
         ActiveUI(3);
         StartCoroutine(StartCountdown());
     }
