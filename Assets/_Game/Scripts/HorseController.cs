@@ -9,7 +9,7 @@ public class HorseController : MonoBehaviour
     public float Id { get; set; }
     public string Name { get; set; }
     [SerializeField] protected Text textName;
-    [SerializeField] protected float speed;
+    [SerializeField] public float speed;
     [SerializeField] protected Rigidbody rb;
     [SerializeField] protected Animator anim;
     [SerializeField] protected SkinnedMeshRenderer sMRHorse;
@@ -37,10 +37,10 @@ public class HorseController : MonoBehaviour
         StartCoroutine(CoRandomSpeed());
 
         // spawn number by id 
-        GameObject number3d = Instantiate(GameManager.Instance.soDataText.GetText3D(id), holderNumber);
-        number3d.transform.localPosition = Vector3.zero;
-        number3d.transform.localEulerAngles = Vector3.zero;
-        number3d.transform.localScale = Vector3.one;
+        //GameObject number3d = Instantiate(GameManager.Instance.soDataText.GetText3D(id), holderNumber);
+        // number3d.transform.localPosition = Vector3.zero;
+        // number3d.transform.localEulerAngles = Vector3.zero;
+        // number3d.transform.localScale = Vector3.one;
 
         ChangeAnim(Constants.ANIM_IDLE);
 
@@ -109,8 +109,11 @@ public class HorseController : MonoBehaviour
     private IEnumerator CoRandomSpeed()
     {
         while (IsCheckRandomSpeed)
-        {
+        { 
             yield return new WaitForEndOfFrame();
+
+            if((2000f - transform.position.z) < 100f) IsCheckRandomSpeed = false;  
+
             if (Vector3.Distance(transform.localPosition, pointRandomSpeed) < 10f)
             {
                 pointRandomSpeed = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + distanceRandomSpeed);
@@ -123,7 +126,7 @@ public class HorseController : MonoBehaviour
         while (speed > 0)
         {
             yield return new WaitForEndOfFrame();
-            speed -= 10f*Time.deltaTime;
+            speed -= 0.5f*Time.deltaTime;
         }
         if (speed <= 0)
         {

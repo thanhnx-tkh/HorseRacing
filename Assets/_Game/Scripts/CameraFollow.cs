@@ -6,32 +6,52 @@ public class CameraFollow : MonoBehaviour
 {
     public Transform target;
     public float smoothSpeed = 0.125f;
-    public Vector3 locationOffset;
-    public Vector3 rotationOffset;
-    public Vector3 rotationFinish;
     public float posZFinish;
+    public Vector3 offset;
+
+    public Vector3 offsetFinish = new Vector3(32, 21.7f, 2000);
+    public Vector3 angle = new Vector3(1.2f, -91.7f, -2f);
+    public Vector3 Finish;
+
+    public HolderHorse holderHorse;
 
     public bool IsFinish { get; set; }
+    public bool IsSpeedDown = true;
+    private void Start() {
+        IsSpeedDown = true;
+    }
     void FixedUpdate()
     {
+        if (holderHorse.horses[0])
+        {
+            target = holderHorse.horses[0].transform;
+            if (Vector3.Distance(target.position, Finish) <= 30f)
+            {
+                IsFinish = true;
+                if (IsSpeedDown == true)
+                {
+                    for (int i = 0; i < holderHorse.horses.Count; i++)
+                    {
+                        holderHorse.horses[i].speed -= 20f;
+                    }
+                    IsSpeedDown = false;
+                }
+
+            }
+
+        }
+
         if (!IsFinish)
         {
-            Vector3 desiredPosition = target.position + target.rotation * locationOffset;
-
-            Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+            Vector3 desiredPosition = new Vector3(0f, target.position.y, target.position.z) + offset;
+            Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
             transform.position = smoothedPosition;
-
-            Quaternion desiredrotation = target.rotation * Quaternion.Euler(rotationOffset);
-
-            Quaternion smoothedrotation = Quaternion.Lerp(transform.rotation, desiredrotation, smoothSpeed);
-            transform.rotation = smoothedrotation;
         }
-        else{
-            // chuyển cảnh camera khi về đính 
-            transform.position = Vector3.MoveTowards(transform.position, 
-                                                        new Vector3(50, 26, posZFinish),0.7f);
-            Quaternion target = Quaternion.Euler(rotationFinish);
-            transform.rotation = Quaternion.Lerp(transform.rotation, target, Time.fixedDeltaTime * 1f);
+        else
+        {
+            Time.timeScale = 0.3f;
+            transform.position = offsetFinish;
+            transform.eulerAngles = angle;
         }
     }
 }

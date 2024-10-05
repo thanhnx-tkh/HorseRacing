@@ -15,7 +15,7 @@ public class FinishPoint : MonoBehaviour
                 UIManager.Instance.arrayUI[1].SetActive(false);
             }
             camerafl.IsFinish = true;
-            Time.timeScale = 0.6f;
+            //Time.timeScale = 0.5f;
             horses.Add(horse);
             horse.IsCheckRandomSpeed = false;
             StartCoroutine(horse.SlowDownSpeed());
@@ -28,7 +28,7 @@ public class FinishPoint : MonoBehaviour
     }
     private IEnumerator CoActiveFinish()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.5f);
         Time.timeScale = 1f;
         GameManager.Instance.State = GameState.Finish;
         UIManager.Instance.ActiveUI(2);
